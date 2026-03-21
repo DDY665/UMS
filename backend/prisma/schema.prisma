@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id                   Int       @id @default(autoincrement())
+  email                String    @unique
+  password             String
+  role                 Role      @default(user)
+  is_active            Boolean   @default(true)
+  must_change_password Boolean   @default(false)
+  onboarding_status    String    @default("ACTIVE")
+  failed_attempts      Int       @default(0)
+  lock_until           DateTime?
+  department_id        Int?
+  department           Department? @relation(fields: [department_id], references: [id])
+  created_at           DateTime  @default(now())
+
+  audit_logs_actor     AuditLog[] @relation("ActorLogs")
+  audit_logs_target    AuditLog[] @relation("TargetLogs")
+}
+
+model Department {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  users User[]
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  actor_id  Int?
+  target_id Int?
+  action    String
+  created_at DateTime @default(now())
+
+  actor  User? @relation("ActorLogs", fields: [actor_id], references: [id])
+  target User? @relation("TargetLogs", fields: [target_id], references: [id])
+}
+
+enum Role {
+  admin
+  manager
+  supervisor
+  employee
+  user
+}
