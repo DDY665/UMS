@@ -75,7 +75,12 @@ const createEmployee = async (req, res, next) => {
       employee.tempPassword,
       onboardingToken
     ).catch(err => {
-      console.error("Mail failed:", err.message);
+      console.error("Mail failed:", {
+        message: err.message,
+        code: err.code,
+        response: err.response,
+        command: err.command
+      });
     });
 
     return response.success(res, "Employee created successfully", {

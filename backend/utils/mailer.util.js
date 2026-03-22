@@ -1,10 +1,15 @@
 const nodemailer = require("nodemailer");
 
+const MAIL_USER = (process.env.MAIL_USER || "").trim();
+const MAIL_PASS = (process.env.MAIL_PASS || "").replace(/\s+/g, "");
+
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
+    user: MAIL_USER,
+    pass: MAIL_PASS,
   },
 });
 
@@ -14,7 +19,7 @@ const transporter = nodemailer.createTransport({
 
 const sendEmployeeCredentials = async (to, tempPassword, token) => {
 
-  if (!process.env.MAIL_USER || !process.env.MAIL_PASS) {
+  if (!MAIL_USER || !MAIL_PASS) {
     throw new Error("Mail service not configured properly");
   }
 
@@ -22,7 +27,7 @@ const sendEmployeeCredentials = async (to, tempPassword, token) => {
   const onboardingLink = `${frontendBaseUrl}/onboard?token=${encodeURIComponent(token)}`;
 
   await transporter.sendMail({
-    from: `"UMS Admin" <${process.env.MAIL_USER}>`,
+    from: `"UMS Admin" <${MAIL_USER}>`,
     to,
     subject: "Your UMS Account Credentials",
     html: `
