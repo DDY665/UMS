@@ -4,9 +4,6 @@ const { logAction } = require("../utils/audit.util");
 const { sendEmployeeCredentials } = require("../utils/mailer.util");
 const jwt = require("jsonwebtoken");
 
-   PROFILE
-========================= */
-
 const getMyProfile = async (req, res, next) => {
   try {
     const user = await userService.getUserById(req.user.id);
@@ -34,10 +31,6 @@ const getMyProfile = async (req, res, next) => {
   }
 };
 
-
-   ADMIN - CREATE EMPLOYEE
-========================= */
-
 const createEmployee = async (req, res, next) => {
   try {
     const { email, role, departmentId } = req.body;
@@ -50,9 +43,6 @@ const createEmployee = async (req, res, next) => {
 
     await logAction(req.user.id, "CREATE_EMPLOYEE", employee.id);
 
-       Generate onboarding token
-    -------------------------- */
-
     const onboardingToken = jwt.sign(
       {
         id: employee.id,
@@ -62,9 +52,6 @@ const createEmployee = async (req, res, next) => {
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
-
-       Send email (non-blocking)
-    -------------------------- */
 
     sendEmployeeCredentials(
       employee.email,
@@ -93,10 +80,6 @@ const createEmployee = async (req, res, next) => {
   }
 };
 
-
-   ADMIN - GET ALL USERS
-========================= */
-
 const getAllUsers = async (req, res, next) => {
   try {
     const users = await userService.getAllUsers();
@@ -109,10 +92,6 @@ const getAllUsers = async (req, res, next) => {
     next(err);
   }
 };
-
-
-   ADMIN - BLOCK / UNBLOCK
-========================= */
 
 const blockUser = async (req, res, next) => {
   try {
@@ -144,10 +123,6 @@ const unblockUser = async (req, res, next) => {
   }
 };
 
-
-   UPDATE EMAIL
-========================= */
-
 const changeMyEmail = async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -162,10 +137,6 @@ const changeMyEmail = async (req, res, next) => {
     next(err);
   }
 };
-
-
-   UPDATE PASSWORD
-========================= */
 
 const changeMyPassword = async (req, res, next) => {
   try {
@@ -203,10 +174,6 @@ const changeMyPassword = async (req, res, next) => {
     next(err);
   }
 };
-
-
-   TEAM
-========================= */
 
 const getMyTeam = async (req, res, next) => {
   try {
