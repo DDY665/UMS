@@ -35,7 +35,8 @@ const validateLogin = [
   body("email")
     .trim()
     .isEmail()
-    .withMessage("Invalid email address"),
+    .withMessage("Invalid email address")
+    .normalizeEmail(),
 
   body("password")
     .notEmpty()
