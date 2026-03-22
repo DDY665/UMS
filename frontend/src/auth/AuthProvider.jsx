@@ -4,7 +4,6 @@ import api from "../api/axios";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }) => {
-  // ✅ Initialize from token directly (NO useEffect)
   const [user, setUser] = useState(() => {
     const token = localStorage.getItem("token");
     if (!token) return null;

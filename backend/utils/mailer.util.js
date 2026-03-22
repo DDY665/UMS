@@ -5,17 +5,24 @@ const MAIL_PASS = (process.env.MAIL_PASS || "").replace(/\s+/g, "");
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false,
+  requireTLS: true,
+  family: 4,
+  connectionTimeout: 15000,
+  greetingTimeout: 15000,
+  socketTimeout: 20000,
+  tls: {
+    servername: "smtp.gmail.com",
+    minVersion: "TLSv1.2"
+  },
   auth: {
     user: MAIL_USER,
     pass: MAIL_PASS,
   },
 });
 
-/* =========================
-   SEND EMPLOYEE CREDENTIALS
-========================= */
+
 
 const sendEmployeeCredentials = async (to, tempPassword, token) => {
 

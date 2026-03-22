@@ -4,7 +4,6 @@ const { logAction } = require("../utils/audit.util");
 const { sendEmployeeCredentials } = require("../utils/mailer.util");
 const jwt = require("jsonwebtoken");
 
-/* =========================
    PROFILE
 ========================= */
 
@@ -36,7 +35,6 @@ const getMyProfile = async (req, res, next) => {
 };
 
 
-/* =========================
    ADMIN - CREATE EMPLOYEE
 ========================= */
 
@@ -52,7 +50,6 @@ const createEmployee = async (req, res, next) => {
 
     await logAction(req.user.id, "CREATE_EMPLOYEE", employee.id);
 
-    /* -------------------------
        Generate onboarding token
     -------------------------- */
 
@@ -66,7 +63,6 @@ const createEmployee = async (req, res, next) => {
       { expiresIn: "24h" }
     );
 
-    /* -------------------------
        Send email (non-blocking)
     -------------------------- */
 
@@ -98,7 +94,6 @@ const createEmployee = async (req, res, next) => {
 };
 
 
-/* =========================
    ADMIN - GET ALL USERS
 ========================= */
 
@@ -116,7 +111,6 @@ const getAllUsers = async (req, res, next) => {
 };
 
 
-/* =========================
    ADMIN - BLOCK / UNBLOCK
 ========================= */
 
@@ -151,7 +145,6 @@ const unblockUser = async (req, res, next) => {
 };
 
 
-/* =========================
    UPDATE EMAIL
 ========================= */
 
@@ -171,7 +164,6 @@ const changeMyEmail = async (req, res, next) => {
 };
 
 
-/* =========================
    UPDATE PASSWORD
 ========================= */
 
@@ -213,7 +205,6 @@ const changeMyPassword = async (req, res, next) => {
 };
 
 
-/* =========================
    TEAM
 ========================= */
 
